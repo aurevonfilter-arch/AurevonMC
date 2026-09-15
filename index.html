@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARVON.MC | فروشگاه رسمی سرور</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="stars"></div>
+
+<header>
+  <div class="nav wrap">
+    <div class="brand"><span class="cube"></span>ARVON<span class="dot">.</span>MC</div>
+    <div class="nav-links">
+      <a href="#shop">فروشگاه</a>
+      <a href="#info">قوانین</a>
+      <a href="#footer-admin">درباره ما</a>
+    </div>
+    <div class="nav-actions">
+      <span id="userChip">خوش اومدی، <b id="userNameChip"></b> <button class="btn btn-ghost btn-sm" onclick="logout()">خروج</button></span>
+      <button class="btn btn-ghost btn-sm" id="loginBtn" onclick="openAuth('login')">ورود</button>
+      <button class="btn btn-glow btn-sm" id="registerBtn" onclick="openAuth('register')">ثبت‌نام</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="badge-live"><span class="pulse"></span> سرور آنلاینه — بیا داخل</div>
+    <h1>ARVON.MC</h1>
+    <p class="tag" id="heroTag">شبکه‌ی بدواز و پرکتیس — سکه اختصاصی VON برای خرید آیتم و امکانات داخل سرور</p>
+    <div class="ip-row">
+      IP سرور: <code id="ipCode">play.arvon.mc</code>
+      <button class="btn btn-glow btn-sm" onclick="copyIP()">کپی</button>
+    </div>
+    <div class="hero-actions">
+      <a href="#shop" class="btn btn-gold">مشاهده فروشگاه</a>
+      <a href="#info" class="btn btn-ghost">قوانین سرور</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>+240</b><span>بازیکن فعال</span></div>
+      <div class="stat"><b id="productCount">0</b><span>آیتم فروشگاه</span></div>
+      <div class="stat"><b>24/7</b><span>آنلاین</span></div>
+    </div>
+    <div class="catstrip">
+      <div class="catpill coin">🪙 سکه VON</div>
+    </div>
+  </div>
+</section>
+
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="section-title">فروشگاه سکه VON <small>پرداخت مستقیم از طریق واتساپ</small></div>
+    <div class="grid" id="productGrid"></div>
+    <div style="margin-top:26px; text-align:center; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <button class="btn btn-gold" id="addProductBtn" style="display:none;" onclick="openProductForm()">+ افزودن پکیج جدید</button>
+      <button class="btn btn-ghost" id="ordersBtn" style="display:none;" onclick="openOrders()">📋 لیست سفارش‌ها</button>
+      <button class="btn btn-ghost" id="inboxBtn" style="display:none;" onclick="openAdminInbox()">💬 پیام‌های چت</button>
+      <button class="btn btn-ghost" id="settingsBtn" style="display:none;" onclick="openSettings()">⚙️ تنظیمات سایت</button>
+      <button class="btn btn-ghost" id="adminsBtn" style="display:none;" onclick="openAdmins()">👑 مدیریت ادمین‌ها</button>
+    </div>
+  </div>
+</section>
+
+<section class="info" id="info">
+  <div class="wrap" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px;">
+    <div class="box">
+      <div class="ic">💬</div>
+      <h4>روش پرداخت</h4>
+      <p>روی «خرید» هر آیتم بزن، سفارشت ثبت میشه و مستقیم داخل همین سایت وارد چت پشتیبانی میشی. بعد از هماهنگی و واریز، آیتم برات فعال میشه. برای ارتباط سریع‌تر می‌تونی از دکمه تماس تلفنی پایین صفحه هم استفاده کنی.</p>
+    </div>
+    <div class="box">
+      <div class="ic">📜</div>
+      <h4>قوانین فروشگاه</h4>
+      <p>آیتم‌ها بعد از تایید پرداخت داخل سرور فعال میشن. کلاهبرداری، ریفاند بی‌دلیل و اسپم پیام ممنوعه.</p>
+    </div>
+    <div class="box">
+      <div class="ic">🛠️</div>
+      <h4>پشتیبانی</h4>
+      <p>هر سوالی داشتی از دکمه‌ی چت 💬 پایین صفحه استفاده کن یا مستقیم با دکمه‌ی تماس 📞 زنگ بزن، هر دو همینجا داخل سایته.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="footer-admin">
+  ARVON.MC &copy; 2026 — ساخته‌شده برای جامعه بدواز و پرکتیس
+  <div><button onclick="openAdminGate()">ورود مدیر</button></div>
+</footer>
+
+<!-- ================= AUTH MODAL ================= -->
+<div class="overlay" id="authOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('authOverlay')">✕</button>
+    <h2 id="authTitle">ثبت‌نام</h2>
+    <p class="sub" id="authSub">حساب بساز و خریدت رو پیگیری کن</p>
+    <div class="msg" id="authMsg"></div>
+    <div class="field">
+      <label>نام کاربری</label>
+      <input id="authUsername" placeholder="مثلا Amir_MC">
+    </div>
+    <div class="field">
+      <label>رمز عبور</label>
+      <input id="authPassword" type="password" placeholder="حداقل ۸ کاراکتر">
+    </div>
+    <div class="field" id="authPhoneField">
+      <label>شماره واتساپ (اختیاری)</label>
+      <input id="authPhone" placeholder="09xxxxxxxxx">
+    </div>
+    <div class="actions">
+      <button class="btn btn-glow" id="authSubmitBtn" onclick="submitAuth()">ثبت‌نام</button>
+    </div>
+    <div class="switcher" id="authSwitcher"></div>
+  </div>
+</div>
+
+<!-- ================= BUY MODAL ================= -->
+<div class="overlay" id="buyOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('buyOverlay')">✕</button>
+    <h2>تکمیل خرید</h2>
+    <div class="buy-item-preview" id="buyPreview"></div>
+    <div class="field">
+      <label>نام کاربری در سرور</label>
+      <input id="buyIgn" placeholder="نام کاراکترت داخل ماینکرفت">
+    </div>
+    <div class="actions">
+      <button class="btn btn-glow" onclick="submitOrder()">ثبت سفارش و چت با پشتیبانی</button>
+    </div>
+    <p class="sub" style="margin-top:14px;">یا مستقیم زنگ بزن: <b id="buyPhoneDisplay" style="color:var(--gold); cursor:pointer;" onclick="callNow()">+98 991 818 0709</b></p>
+  </div>
+</div>
+
+<!-- ================= ADMIN GATE ================= -->
+<div class="overlay" id="adminGateOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('adminGateOverlay')">✕</button>
+    <h2>ورود مدیریت</h2>
+    <p class="sub">ورود با نام کاربری مالک یا ادمین</p>
+    <div class="msg" id="adminGateMsg"></div>
+    <div class="field">
+      <label>نام کاربری ادمین (اختیاری)</label>
+      <input id="adminUsername" placeholder="مثلا owner">
+    </div>
+    <div class="field">
+      <label>رمز عبور</label>
+      <input id="adminPassword" type="password" placeholder="رمز">
+    </div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="unlockAdmin()">ورود</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PRODUCT FORM ================= -->
+<div class="overlay" id="productFormOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('productFormOverlay')">✕</button>
+    <h2 id="productFormTitle">افزودن آیتم</h2>
+    <div class="field">
+      <label>دسته‌بندی</label>
+      <select id="pfCategory">
+        <option value="coin">سکه VON</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>اسم آیتم</label>
+      <input id="pfName" placeholder="مثلا اژدهای سایه">
+    </div>
+    <div class="field">
+      <label>قیمت (تومان)</label>
+      <input id="pfPrice" type="number" placeholder="مثلا 50000">
+    </div>
+    <div class="field">
+      <label>عکس آیتم (آپلود از گوشی/کامپیوتر)</label>
+      <input id="pfImageFile" type="file" accept="image/*">
+    </div>
+    <div class="field">
+      <label>یا آدرس لینک عکس (اختیاری، جای آپلود)</label>
+      <input id="pfImageUrl" placeholder="https://...">
+    </div>
+    <input type="hidden" id="pfId">
+    <div class="actions">
+      <button class="btn btn-gold" onclick="saveProduct()">ذخیره آیتم</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ORDERS (ADMIN) ================= -->
+<div class="overlay" id="ordersOverlay">
+  <div class="modal" style="max-width:520px;">
+    <button class="close" onclick="closeModal('ordersOverlay')">✕</button>
+    <h2>سفارش‌های ثبت‌شده</h2>
+    <div id="ordersList" style="display:flex; flex-direction:column; gap:10px;"></div>
+  </div>
+</div>
+
+<!-- ================= SITE SETTINGS (ADMIN) ================= -->
+<div class="overlay" id="settingsOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('settingsOverlay')">✕</button>
+    <h2>تنظیمات سایت</h2>
+    <div class="msg" id="settingsMsg"></div>
+    <div class="field">
+      <label>IP سرور (چیزی که بازیکن‌ها میزنن)</label>
+      <input id="stIp" placeholder="play.arvon.mc">
+    </div>
+    <div class="field">
+      <label>شماره تماس (برای دکمه‌ی تماس تلفنی سایت — فقط عدد، با کد کشور، بدون + یا صفر اول)</label>
+      <input id="stWhatsapp" placeholder="989918180709">
+    </div>
+    <div class="field">
+      <label>متن زیر عنوان اصلی سایت</label>
+      <textarea id="stTagline" rows="3" placeholder="متن معرفی سرور"></textarea>
+    </div>
+    <div class="field">
+      <label>تغییر رمز مالک سایت</label>
+      <input id="stAdminPass" placeholder="رمز جدید مالک">
+    </div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="saveSettings()">ذخیره تنظیمات</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MANAGE ADMINS (OWNER ONLY) ================= -->
+<div class="overlay" id="adminsOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal('adminsOverlay')">✕</button>
+    <h2>👑 مدیریت ادمین‌ها</h2>
+    <div class="msg" id="adminsMsg"></div>
+    <div id="adminsList" style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;"></div>
+    <div class="field">
+      <label>نام کاربری ادمین جدید</label>
+      <input id="newAdminUsername" placeholder="مثلا Reza_Mod">
+    </div>
+    <div class="field">
+      <label>رمز عبور ادمین جدید</label>
+      <input id="newAdminPassword" type="password" placeholder="حداقل ۸ کاراکتر">
+    </div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="addAdmin()">افزودن ادمین</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ================= CONTACT: CHAT + CALL (IN-SITE) ================= -->
+<div class="contact-fabs">
+  <button class="fab fab-call" title="تماس تلفنی" onclick="callNow()">📞</button>
+  <button class="fab fab-chat" id="chatFab" title="چت با پشتیبانی" onclick="toggleChat()">
+    💬
+    <span class="fab-badge" id="chatBadge">1</span>
+  </button>
+</div>
+
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">
+    <div class="who">
+      <div class="avatar">🎧</div>
+      <div>
+        <h4>پشتیبانی ARVON.MC</h4>
+        <span class="status">● آنلاین</span>
+      </div>
+    </div>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+
+  <div id="chatGate" class="chat-name-gate">
+    <p>قبل از شروع چت، اسمت رو بنویس تا پیامت رو گم نکنیم</p>
+    <input class="field-input-like" id="chatGateName" placeholder="اسمت (یا نام کاربری‌ت تو سرور)" style="padding:11px 14px; background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:10px; color:var(--text); font-family:inherit;">
+    <button class="btn btn-glow" onclick="startChat()">شروع چت</button>
+  </div>
+
+  <div class="chat-body" id="chatBody" style="display:none;"></div>
+  <div class="chat-foot" id="chatFoot" style="display:none;">
+    <input id="chatInput" placeholder="پیامت رو بنویس..." onkeydown="if(event.key==='Enter') sendChatMessage();">
+    <button onclick="sendChatMessage()">➤</button>
+  </div>
+</div>
+
+<!-- ================= ADMIN: SUPPORT INBOX ================= -->
+<div class="overlay" id="inboxOverlay">
+  <div class="modal" style="max-width:480px;">
+    <button class="close" onclick="closeModal('inboxOverlay')">✕</button>
+    <h2>💬 پیام‌های پشتیبانی</h2>
+    <p class="sub">لیست کسایی که تو سایت پیام دادن</p>
+    <div class="admin-inbox-list" id="adminInboxList"></div>
+  </div>
+</div>
+
+<div class="overlay" id="adminThreadOverlay">
+  <div class="modal" style="max-width:480px;">
+    <button class="close" onclick="closeModal('adminThreadOverlay')">✕</button>
+    <h2 id="adminThreadName">گفتگو</h2>
+    <div class="admin-chat-body" id="adminThreadBody"></div>
+    <div class="field">
+      <input id="adminReplyInput" placeholder="پاسخت رو بنویس..." onkeydown="if(event.key==='Enter') sendAdminReply();">
+    </div>
+    <div class="actions">
+      <button class="btn btn-glow" onclick="sendAdminReply()">ارسال پاسخ</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
